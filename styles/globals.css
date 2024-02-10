@@ -6,6 +6,69 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --gray-100: #a95bf6;
+    --gray-400: #8e3ce5;
+    --gray-600: #535967;
+    --gray-600b: #3e3b4c;
+    --gray-700: #374151;
+    --gray-800: #232B37;
+    --gray-900: #16191E;
+    --gray-900b: #090c10;
+    --white: #FFFFFF;
+    --gray: var(--gray-400);
+    --black: #000000;
+    --primary: #FF04B4;
+    --primary-dark: #1D1B28;
+    --contrast: #0062F9;
+    --100vw: calc(1vw * 100);
+    --100vw: calc(var(--vw, 1vw) * 100);
+    --100vh: calc(1vh * 100);
+    --100vh: calc(var(--vh, 1vh) * 100);
+    --border-radius: 4px;
+    --border-color: var(--gray-700);
+    --border-color-dark: var(--primary-dark);
+    --border-color-light: var(--gray-300);
+    --border: 1px solid var(--border-color);
+    --border-dark: 1px solid var(--border-color-dark);
+    --spacer: 1rem;
+    --size-0: 0.125rem;
+    --size-1: 0.25rem;
+    --size-2: 0.5rem;
+    --size-3: 1rem;
+    --size-4: 1.5rem;
+    --size-5: 2rem;
+    --size-6: 3rem;
+    --size-7: 5rem;
+    --size-8: 8rem;
+    --size-9: 12rem;
+    --legend-height: 2.5rem;
+    --speed: .5s;
+    --speed-slow: 2s;
+    --scape-max-width: 648px;
+    --font-family-title: 'Space Mono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    --font-family-body: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    --font-family-serif: Vollkorn, serif;
+    --font-size-xs: .409rem;
+    --font-size-sm: .6875rem;
+    --font-size-base: .8125rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    --font-size-xxl: 2rem;
+    --font-size-xxxl: 3.2rem;
+    --font-weight-base: 400;
+    --font-weight-bold: 700;
+    --letter-spacing-sm: 0.05em;
+    --letter-spacing-lg: 0.2em;
+    --line-height-heading: 1.3;
+    --line-height-flow: 1.5;
+    --line-height-serif-flow: 1.8;
+    --text-light: var(--gray);
+    --shadow: 0px var(--size-1) var(--size-4) rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0px var(--size-2) var(--size-5) rgba(0, 0, 0, 0.75);
+    --shadow-primary: 0px var(--size-1) var(--size-4) var(--semi-primary);
+    --shadow-primary-lg: 0px var(--size-2) var(--size-5) var(--semi-primary-strong);
+    --shadow-light-lg: 0px var(--size-2) var(--size-5) rgba(255, 255, 255, 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,18 +79,78 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+
+.frame {
+  height: var(--100vh);
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: auto;
+  width: var(--100vw);
+  background-color: var(--gray-800);
+  background: linear-gradient(225deg, var(--gray-800), var(--gray-900b));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.player-wrapper {
+    width: 100%;
+    min-height: 35rem;
+    max-height: calc(var(--100vh) - 2 * var(--size-6));
+    box-shadow: -20px 20px 60px rgba(0, 0, 0, 0.3), 20px -20px 60px var(--gray-800);
+    min-height: 28rem;
+    height: 28rem;
+    max-height: calc(var(--100vh) - 2 * var(--size-4));
+    max-width: 56rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+
+
+.player {
+  --lcd-height: 3rem;
+  width: 100%;
+  height: 35rem;
+  border-radius: var(--size-6);
+  border: var(--border);
+  border-width: calc(var(--size-1) / 3);
+  border-color: var(--gray-500);
+  background-color: var(--gray-400);
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  grid-template-rows: calc(3rem + 640px / 3 + var(--lcd-height)) 20% 1fr;
+  grid-template-areas:
+      'scape scape scape'
+      'speaker speaker speaker'
+      'controls controls controls';
+}
+
+
+.currentAlbum {
+  grid-area: scape;
+  display: flex;
+  justify-self: center;
+  align-self: center;
+  max-inline-size: 300px;
+  padding-top: 100px;
+}
+
+
+.player .controls {
+    grid-area: controls;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--size-4);
 }

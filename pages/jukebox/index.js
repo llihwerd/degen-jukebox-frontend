@@ -1,41 +1,45 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Image from "next/image";
+import TrackList from "../components/TrackList";
+import musicData from "../../lib/musicData";
 
 const Jukebox = () => {
   const [music, setMusic] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+
   useEffect(() => {
-    async function getAllJukebox() {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_ROUTE}/api/music`
-        );
-        console.log("the response is :", response.data);
-        setMusic(response.data.jukeboxMusic);
-        setLoading(false);
-      } catch (error) {
-        console.log("there was an error fetching the music");
-        setError("there was an error fetching the music");
-      }
-    }
-    getAllJukebox();
+    setMusic(musicData);
   }, []);
-  if (loading) return <p>loading...</p>;
-  if (error) return <p>{error}</p>;
+
+  const handleTrackSelect = (index) => {
+    setCurrentTrackIndex(index);
+  };
+
   return (
-    <div className="">
-      {music &&
-        music.map((x, i) => {
-          return (
-            <div key={i} className="flex h-48">
-              <div className="h-full relative aspect-square">
-                <Image src={x.cover} fill />
-              </div>
-            </div>
-          );
-        })}
+    <div className="frame">
+    <div className="player-wrapper"> {/* Update class name */}
+      <div className="player"> {/* Update class name */}
+        <img src={music[currentTrackIndex]?.cover} className="currentAlbum" />
+        <div className="controls"> {/* Update class name */}
+          {/* Render audio controls */}
+          <audio controls src={music[currentTrackIndex]?.audio} className="mt-4" />
+
+          {/* Render album covers as buttons */}
+          <div className="flex gap-4 mt-4">
+            {music.map((track, index) => (
+              <button
+                key={index}
+                className={`w-20 h-20 relative overflow-hidden rounded-full focus:outline-none ${
+                  index === currentTrackIndex ? "border-4 border-blue-500" : ""
+                }`}
+                onClick={() => handleTrackSelect(index)}
+              >
+                <img src={track.cover} alt={track.title} className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   );
 };
